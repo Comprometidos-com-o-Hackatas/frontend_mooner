@@ -1,5 +1,6 @@
 <script setup>
-  import router from '@/router';
+  import LunaIA from '@/components/layout/header/LunaIA.vue';
+import router from '@/router';
 import { artist } from '@/utils/artist-profile';
 
   function gopageartist(id){
@@ -29,6 +30,10 @@ import { artist } from '@/utils/artist-profile';
           </div>
             <h1>{{ info.artist }}</h1>
         </div>
+        <LunaIA />
+    </section>
+    <section>
+
     </section>
   </main>
 </div>

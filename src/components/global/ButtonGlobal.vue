@@ -1,5 +1,5 @@
 <template>
-    <button id="btn_id" :style="{background: background, width: width, height: height, color:color, fontSize: font_size, border:border, borderRadius: border_radius}"><p>{{title}}</p></button>
+    <button id="btn_id" :style="{background: background, width: width, height: height, color:color, fontSize: font_size, border:border, borderRadius: border_radius}"><p v-if="!is_arrow">{{title}}</p><img src="../../assets/images/EmailSend.png" id="sendsvg" v-else></button>
 </template>
 <script setup>
     defineProps({
@@ -33,6 +33,10 @@
         },
         border:{
             type: String,
+            required: true
+        },
+        is_arrow:{
+            type: Boolean,
             required: true
         }
     })

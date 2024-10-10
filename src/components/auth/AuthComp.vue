@@ -36,7 +36,7 @@
                         <RouterLink :to="is_login_page ? '/sign-up' : '/login'">{{is_login_page ? 'não possuo uma conta' : 'ja possuo uma conta'}}</RouterLink>
                     </div>
                     <div class="btn-container">
-                        <ButtonGlobal background="#8000ff" width="100%" border="none" font_size="25px" border_radius="10px" color="white"  :title="is_login_page ? 'Iniciar sessão' : 'Registrar-se'" @click="action_btn"/>
+                        <ButtonGlobal :is_arrow="false" background="#8000ff" width="100%" border="none" font_size="25px" border_radius="10px" color="white"  :title="is_login_page ? 'Iniciar sessão' : 'Registrar-se'" @click="action_btn"/>
                     </div>
                 </div>
             </div>

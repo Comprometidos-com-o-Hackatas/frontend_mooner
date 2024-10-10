@@ -125,7 +125,7 @@
     color: #fff; 
     font-size: 18px;
     outline: none;
-  }
+}
 
 .input-container input::placeholder {
     color: transparent; /* Esconde o placeholder */
