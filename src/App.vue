@@ -1,11 +1,12 @@
 <script setup>
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useUserStore, usePlaylistStore, useLoginStore } from '@/stores';
+import { useUserStore, usePlaylistStore, useLoginStore, useCommunityStore } from '@/stores';
 
 const userStore = useUserStore()
 const playlistStore = usePlaylistStore()
 const loginStore = useLoginStore()
+const communityStore = useCommunityStore()
 
 // router.beforeEach((to, from, next) => {
 //   if (to.path == '/login' ||)
@@ -13,8 +14,9 @@ const loginStore = useLoginStore()
 
   onMounted(async()=>{
     await userStore.getUser(loginStore.access)
-    console.log(userStore.myuser)
     await playlistStore.getPlaylistsByOwner(userStore.myuser.email, loginStore.access)
+    await communityStore.getCommunitysByAutor(userStore.myuser.email, loginStore.access)
+
   })
 </script>
 <template>

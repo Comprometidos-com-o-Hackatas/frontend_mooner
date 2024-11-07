@@ -4,13 +4,13 @@ import UserOptions from '../user/artist/UserOptions.vue';
 const loginStore = useLoginStore()
 </script>
 <template>
-    <div class="flex justify-end w-[97.5%] mb-3 mx-auto relative right-0 min-h-10 text-white items-end">
-        <div class="user-config">
-            <div class="flex items-center gap-2">
+    <div class="flex justify-end w-[97.5%] mb-3 mx-auto relative right-0 min-h-10 text-white items-end ">
+        <div class="user-config ">
+            <div class="flex items-center gap-2 px-2 pt-1 ">
                 <img class="w-7 rounded-full" src="https://th.bing.com/th/id/R.47d1cc4b137f211cb1c3dfa2135bacba?rik=WfNjlHz94xdl5g&pid=ImgRaw&r=0">
                 <p :class="loginStore.user.premium ? 'btn-dourado' : 'text-white'" >{{loginStore.user.email}}</p>
             </div>
-            <div id="options">
+            <div  id="options">
                 <UserOptions :is_artist="loginStore.user.is_artist" :logout="loginStore.Logout"/>
             </div>
         </div>
@@ -21,27 +21,37 @@ const loginStore = useLoginStore()
         position: absolute;
         right: 0;
         margin-right: 20px;
+        transition: 0.4s;
+        border-radius: 10px 10px 0px 0px ;
     }
     #options{
-        display: none;
-        margin-bottom: 20px;
+       
+        transition: 0.6s;
+        opacity: 0;
+        width: 100%;
+        position: absolute;
+        height: 0px;
+       
+        
     }
     .user-config:hover{
         background-color: blueviolet;
-        border-radius: 10px 10px 0px 0px ;
+    
     }
     .user-config:hover #options{
-        color: white;
-        display: flex;
-        flex-direction: column;
-        position: absolute;
+
+        opacity: 1;
+        height: auto;
+        margin-bottom: 20px;
+       
         background-color: blueviolet;
         gap: 5px;
-        width: 100%;
+       
         border-radius: 0px 0px 10px 10px;
         right: 0.005px;
         font-size: 17px;
-        padding: 10px
+        padding: 10px;
+        
     }
     .btn-dourado {
         width: auto;

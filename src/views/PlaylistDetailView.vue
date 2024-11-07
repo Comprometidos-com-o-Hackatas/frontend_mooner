@@ -37,18 +37,21 @@ onMounted(async ()=>{
   <main class=" w-full min-h-full flex justify-end gap-4">
     
     <section class="my-auto mr-2 min-h-full rounded-lg w-[98%] bg-[#121212]">
-      <ContainerNavigateButtons class="mt-5">
-        <NavigateHomeButtons :has_active_bg="true" v-for="item,index in data_page" :key="index" :title="item.title" :active="item.active" @goSection="selectSection(index, data_page, item.title)" />
-      </ContainerNavigateButtons>
+      <div class="min-w-full min-h-screen flex relative rounded-lg">
 
-      <ContainerNavigateButtons justify="justify-start" class="mt-2 px-5">
-        <NavigateHomeButtons :has_active_bg="false" v-for="item,index in data_section" :key="index" :title="item.title" :active="item.active" @goSection="selectSection(index, data_section)" />
-      </ContainerNavigateButtons>
-
-      <MusicGlobalContainer class="mt-3" :title="item.title" v-for="item, index in data_music_home" :key="index">
-        <MusicBox  v-for="music, index in item.music" :key="index" :music_data="music" :index="index" :has_playlist="verifyHasPlaylist" />
-      </MusicGlobalContainer>
-    
+        <div class="absolute top-5 left-8 z-30 flex gap-3 items-center">
+        <h2 class="text-white text-xl"> Playlist</h2>
+        <i class="mdi mdi-eye text-white text-lg"></i>
+        </div>
+        <div class="w-1/6 h-1/6 absolute z-30">
+            <img class="w-full h-full relative" src="@/assets/images/imagemdefundologin.png" alt="">
+        </div>
+        <div class="w-4/12 h-screen relative">
+            <img class="w-full h-full relative" src="@/assets/images/imagemdefundologin.png" alt="">
+            <div class="bg-black w-full h-full absolute top-0 opacity-70"></div>
+        </div>
+        <div class="w-8/12 bg-red-800 h-screen"></div>
+      </div>
     </section>
   </main>
 </template>

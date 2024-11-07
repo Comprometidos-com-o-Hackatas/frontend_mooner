@@ -2,7 +2,7 @@
 import ButtonGlobal from '@/components/global/ButtonGlobal.vue';
 import InputGlobal from '@/components/global/InputGlobal.vue';
 import api from '@/plugins/api';
-import { useLoginStore } from '@/stores';
+import { useLoginStore, useUserStore } from '@/stores';
 import { useLunnaIAStore } from '@/stores';
 import { onMounted, onUpdated, ref} from 'vue';
 import LunaChat from './LunaChat.vue';
@@ -10,6 +10,7 @@ import { UserMeService } from '@/services';
 const useranswer = ref('')
 const storeLunna = useLunnaIAStore()
 const storeUser = useLoginStore()
+const userStore = useUserStore()
 const pagina = ref(1)
 const chat = ref(null)
 const user = ref(null)
@@ -17,7 +18,7 @@ const counter = ref(0)
 
 async function Answer(){
     counter.value = 0
-    storeLunna.CreateAnswer({usuario: user.value, answer: useranswer.value}, storeUser.state.access)
+    storeLunna.CreateAnswer({usuario: userStore.myuser.email, answer: useranswer.value}, storeUser.state.access)
     useranswer.value = ''
 } 
 
@@ -42,7 +43,7 @@ async function getPagination(token, command){
 
 onUpdated(async() =>{
     const token = storeUser.state.access
-    await storeLunna.GetChat(user.value, token, pagina.value)
+    await storeLunna.GetChat(userStore.myuser.email, token, pagina.value)
     counter.value++
     if(counter.value <= 50){
         scrolltoEnd()
@@ -51,9 +52,8 @@ onUpdated(async() =>{
 
 onMounted( async () =>{
     const token = storeUser.state.access
-    const me = await UserMeService.GetMe(token)
-    await storeLunna.GetChat(me, token, pagina.value)
-    user.value = me.id
+    await storeLunna.GetChat(userStore.myuser.email, token, pagina.value)
+
     scrolltoEnd()
 })
 </script>
@@ -68,7 +68,7 @@ onMounted( async () =>{
             <h1>Ola eu sou Lunna</h1>
         </div>
         <div>
-            <div class="chat-container" ref="chat">
+            <div class="chat-container mb-2" ref="chat">
                 <LunaChat v-for="chat in storeLunna.chatorder" :key="chat.id" :answer="chat.answer" :response="chat.response"/>
             </div>
             <div class="lunna-chat">

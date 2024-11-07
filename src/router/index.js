@@ -30,11 +30,6 @@ const router = createRouter({
           component: () => import('../views/ArtistDetailView.vue'),
         
         },
-        {
-          path: '/beanartist',
-          name: 'beartist',
-          component: () => import('../views/BeAnArtistView.vue')
-        },
         { 
           path: '/:pathMatch(.*)*', 
           name: 'NotFound', 
@@ -50,6 +45,11 @@ const router = createRouter({
           name: 'NotFound', 
           component: ()=> import('../views/NotFound.vue')
         },
+        {
+          path: '/playlist/:id',
+          name: 'playlist',
+          component: () => import('../views/PlaylistDetailView.vue')
+        }
       ],
     },
     {
@@ -99,6 +99,11 @@ const router = createRouter({
           name: 'Historico',
           component: () => import('../views/HistoryView.vue'),
           
+        },
+        {
+          path: '/beanartist',
+          name: 'beartist',
+          component: () => import('../views/BeAnArtistView.vue')
         },
       ]
     },

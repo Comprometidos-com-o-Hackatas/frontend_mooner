@@ -97,6 +97,7 @@ export const usePlaylistStore = defineStore('playlist', () => {
    */
   const createPlaylist = async (newPlaylist, token) => {
     state.loading = true
+    console.log(newPlaylist)
     try {
       state.playlists.push(await PlaylistService.createPlaylist(newPlaylist, token))
     } catch (error) {

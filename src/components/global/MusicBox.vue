@@ -4,7 +4,7 @@ import play from '../../assets/images/icons/play.svg'
 import pause from '../../assets/images/icons/pause.svg'
 import SettingsGlobal from './SettingsGlobal.vue';
 import AddPlaylist from './AddPlaylist.vue';
-import { data_playlist, adjusteSize, verify_active } from '@/utils/music/music';
+import { adjusteSize, verify_active } from '@/utils/music/music';
 import { artist } from '@/utils/artist/artist-profile';
 
 const getClick = ref(false)
@@ -75,7 +75,7 @@ const clickToAdd = ref(false)
     </div>
     </div>
     <SettingsGlobal v-if="!is_search_history" :is_on="settings" />
-    <AddPlaylist v-if="!is_search_history" :is_on="playlist" @createPlaylist="emits('createPlaylist')" :has_playlist="props.has_playlist" :data="data_playlist" /> 
+    <AddPlaylist v-if="!is_search_history" :is_on="playlist" @createPlaylist="emits('createPlaylist')" :has_playlist="props.has_playlist" :music_data="props.music_data" /> 
     </div>
     
 </template>

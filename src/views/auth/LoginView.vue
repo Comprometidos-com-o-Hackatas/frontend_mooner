@@ -10,7 +10,7 @@
         if(!is_logged && !store.state.user.premium){
             store.msg = ''
             store.is_logged = true
-            router.push('/plans')
+            router.push('/')
         }
         else if(!is_logged && store.state.user.premium){
             store.msg = ''

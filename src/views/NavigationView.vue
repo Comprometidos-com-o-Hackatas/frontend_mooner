@@ -75,7 +75,7 @@ const musics = [
 
 async function FilterSong(){
     const store = await SongStore.getSongsByName(search.value, LoginStore.access)
-    console.log(SongStore.songsByTitle)
+
 }
 </script>
 <template>

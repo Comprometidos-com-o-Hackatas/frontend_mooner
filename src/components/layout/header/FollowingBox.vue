@@ -1,5 +1,5 @@
 <script setup>
-import { data_playlist, adjusteSize, verify_active } from '@/utils/music/music';
+import { adjusteSize, verify_active } from '@/utils/music/music';
 const props = defineProps({
     data_following: {
         type: Array

@@ -16,7 +16,7 @@ defineProps({
         <div class="msg-card">
             <i :class="!err ? 'mdi mdi-check-circle' : 'mdi mdi-close-circle'"></i>
             <div>
-                <p v-html="msg"></p>
+                <p class="text-black" v-html="msg"></p>
                 <ButtonGlobal width="100px" font_size="15px" border="none" border_radius="10px" background="black" color="white" title="ok" @click="$emit('confirm', err)"/>
             </div> 
         </div>

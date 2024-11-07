@@ -23,7 +23,7 @@ class PlaylistService {
 
     async getPlaylistsBySongs(songs, token) {
         try {
-            const {data} = await api.get(`/playlists/?songs=${songs}`, {headers: {'authorization': `Bearer ${token}`}});
+            const {data} = await api.get(`/playlists/?song_id=${songs}`, {headers: {'authorization': `Bearer ${token}`}});
         return data.results
         } catch (error) {
             console.log('Error in getPlaylistsBySongs', error);
@@ -33,7 +33,9 @@ class PlaylistService {
 
     async getPlaylistsByOwner(owner, token) {
         try {
-            const {data} = await api.get(`/playlists/?owners=${owner}`, {headers: {'authorization': `Bearer ${token}`}});
+            
+            const {data} = await api.get(`/playlists/?owners_email=${owner}`, {headers: {'authorization': `Bearer ${token}`}});
+            console.log(data.results)
         return data.results
         } catch (error) {
             console.log('Error in getPlaylistsBySongs', error);
@@ -62,7 +64,9 @@ class PlaylistService {
      */
     async createPlaylist(newPlaylist, token) {
         try {
-            const { data } = await api.post('/playlist/', newPlaylist, {headers: {'authorization': `Bearer ${token}`}});
+            console.log(newPlaylist)
+            const { data } = await api.post('/playlists/', newPlaylist, {headers: {'authorization': `Bearer ${token}`}});
+            console.log(data)
             console.log( "Service: AddPlaylist - return success")
             return data.results;
         } catch (error) {

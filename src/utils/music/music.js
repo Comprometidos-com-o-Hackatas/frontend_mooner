@@ -15,30 +15,12 @@ export const data =  ref([
     {tittle: 'Copiar Link', img: copy},
 ])
 
-export const data_playlist = [
-    {tittle: 'Melhores do ano', img: monn},
-    {tittle: 'Treino pesado', img: wave},
-    {tittle: 'Melhores do ano com certeza tropa', img: monn},
-    {tittle: 'Treino pesado', img: wave},
-    {tittle: 'Melhores do ano', img: monn},
-    {tittle: 'Treino pesado', img: wave},
-]
-
 export const adjusteSize = (item, lenght, index) => {
     if (item.length > lenght) {
         item = item.replace(item.substring(index), '') + '...'
     }
     return item
 }
-
-export const data_music = ref([
-    {tittle: 'Melhores do ano', artist: 'monn', has_playlist: false},
-    {tittle: 'Treino pesado', artist: 'wave', has_playlist: false},
-    {tittle: 'Melhores do ano com certeza tropa', artist: 'monn', has_playlist: false},
-    {tittle: 'Treino pesado', artist: 'wave', has_playlist: false},
-    {tittle: 'Melhores do ano', artist: 'monn', has_playlist: false},
-    {tittle: 'Treino pesado', artist: 'wave', has_playlist: false},
-])
 
 export const data_header_icons = ref([
     {icon: house, active: true, comp: 'home'},
@@ -57,7 +39,7 @@ export const returnActive = computed(() => {
   })
 
 export const data_section = ref([
-    {title: 'Playlists', active: false}, {title: 'Músicas', active: false}, {title: 'Podcasts', active: false}, {title: 'Artistas', active: false}
+    {title: 'Playlists', active: false}, {title: 'Músicas', active: false}, {title: 'Artistas', active: false}
   ])
 
 export const data_page = ref([
