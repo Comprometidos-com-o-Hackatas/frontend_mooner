@@ -13,7 +13,7 @@ onMounted(()=>{
 })
 </script>
 <template>
-     <main class="w-dvw h-dvh grid grid-rows-2 grid-cols-[23%_77%]">
+  <main class="w-dvw h-dvh grid grid-rows-2 grid-cols-[23%_77%]">
     <div class="relative col-start-1 col-end-1 w-full">
    <NavigationHeader class="fixed z-40 duration-150" :data_community="communityStore.communitysByAutor" :data_playlist="playlistStore.playlistsByOwner" :class="returnActive == 'home' ? 'w-[23%]' : 'w-[28%]'" />
     </div>

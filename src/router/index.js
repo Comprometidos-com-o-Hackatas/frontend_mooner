@@ -39,7 +39,12 @@ const router = createRouter({
           path: '/playlist/:id',
           name: 'playlist',
           component: () => import('../views/PlaylistDetailView.vue')
-        }
+        },
+        {
+          path: '/CommunityHome',
+          name: 'CommunityHome',
+          component: () => import('../views/CommunityView.vue')
+        },
       ],
     },
     {
@@ -110,6 +115,7 @@ const router = createRouter({
           name: 'beartist',
           component: () => import('../views/BeAnArtistView.vue')
         },
+        
       ]
     },
   ]
