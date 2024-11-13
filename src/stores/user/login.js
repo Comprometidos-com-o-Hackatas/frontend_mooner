@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { logininputs } from "@/utils/inputs/login";
 import { computed, ref } from "vue";
 import { LoginService, UserMeService } from "@/services";
+import { useQueueStore } from "../mooner/queue";
 import { useStorage } from "@vueuse/core";
 import router from "@/router";
 const loginservice = new LoginService()
@@ -16,6 +17,9 @@ export const useLoginStore = defineStore('login', ()=>{
         access: '',
         refresh: ''
     })
+
+    const queueStore = new useQueueStore()
+
     
     const msg = ref(null)
     const err = ref(false)
@@ -52,6 +56,7 @@ export const useLoginStore = defineStore('login', ()=>{
         state.value.refresh = ''
         state.value.user.email = ''
         state.value.user.password = ''
+        queueStore.state.currentSong = null
         localStorage.clear()
         router.push('/login')
     }

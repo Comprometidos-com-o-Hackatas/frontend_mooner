@@ -55,7 +55,7 @@ const createCommunity = async (community, token) => {
  
 </script>
 <template>
-  <section class="my-auto border-r border-none overflow-auto rounded-lg bg-[#121212] p-5" :class="queueStore.state?.currentSong ? 'h-[90%]' : 'h-full' " >  
+  <section class="my-auto border-r border-none overflow-auto rounded-lg bg-[#121212] p-5" :class="(queueStore.state?.currentSong) ? 'h-[90%]' : 'h-full' " >  
     <div class="w-full flex justify-between">
       <img class="h-12" src="@/assets/images/Logo.png" alt="" />
 

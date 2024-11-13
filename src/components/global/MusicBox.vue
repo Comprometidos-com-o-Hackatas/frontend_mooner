@@ -78,7 +78,7 @@ async function createsong(){
         </div>
         <div class="flex w-full h-full">
             <div class="h-full w-4/12 duration-200 relative z-10 music-box-img">
-                <img class="absolute top-2 left-[25px] w-6 h-6 z-20 brightness-200 music-play" @click="QueueStore.setCurrentSong(props.music_data)" :src="(QueueStore.state.currentSong == props.music_data && is_playing) ? pause : play">
+                <img class="absolute top-2 left-[25px] w-6 h-6 z-20 brightness-200 music-play" @click="QueueStore.setCurrentSong(props.music_data)" :src="(QueueStore.state.currentSong == props.music_data && QueueStore.is_playing) ? pause : play">
                 <img class="h-full w-full rounded-l-md music-img" :src="music_data.cover.url ? music_data.cover.url : music_data.cover.file ? music_data.cover.file : null">
             </div>
             <div class="w-11/12 flex flex-col justify-center pl-3 overflow-hidden">

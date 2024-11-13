@@ -22,11 +22,11 @@ const volume = ref(50)
 const usePlay = () => {
     if (QueueStore.is_playing) {
         songPlayer.value.pause()
-        QueueStore.value.state.is_playing.value = false
+        QueueStore.is_playing = false
     }
     else {
         songPlayer.value.play()
-        QueueStore.value.state.is_playing.value = true
+        QueueStore.is_playing = true
     }
 }
 
@@ -54,7 +54,7 @@ onMounted(() => {
             <div class="relative rounded-lg bg-slate-600 h-12 w-12">
                 <audio ref="songPlayer" class="" :src="QueueStore.state.currentSong.player.url"></audio>
                 <img class="w-full h-full brightness-50 border-none rounded-xl" v-if="QueueStore.state.currentSong.cover?.url" :src="QueueStore.state.currentSong.cover?.url" alt="">
-                <img class="absolute top-3 left-3.5 w-6 h-6 z-30 brightness-200 cursor-pointer" @click="usePlay" :src="(is_playing) ? pause : play">
+                <img class="absolute top-3 left-3.5 w-6 h-6 z-30 brightness-200 cursor-pointer" @click="usePlay" :src="(QueueStore.is_playing) ? pause : play">
             </div>
             <img class="cursor-pointer w-6 h-6 z-30 brightness-200" :src="next" @click="QueueStore.nextSong()" alt="">
             <div class="flex flex-col items-start" >
