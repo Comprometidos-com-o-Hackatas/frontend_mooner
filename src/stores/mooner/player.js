@@ -9,22 +9,24 @@ export const usePlayerStore = defineStore('player', () => {
     })
 
     const play = () => {
-        state.value.songPlayer.play()
-        state.value.is_playing = true
+        console.log(state.songPlayer);
+        state.songPlayer.play()
+        state.is_playing = true
     }
 
     const pause = () => {
-        state.value.songPlayer.pause()
-        state.value.is_playing = false
+        state.songPlayer.pause()
+        state.is_playing = false
     }
     const usePlay = () => {
-        if (state.value.is_playing) {
-            state.value.songPlayer.pause()
-            state.value.is_playing = false
+        console.log(state) 
+        if (state.is_playing) {
+            state.songPlayer.pause()
+            state.is_playing = false
         }
         else {
-            state.value.songPlayer.play()
-            state.value.is_playing = true
+            state.songPlayer.play()
+            state.is_playing = true
         }
     }
 

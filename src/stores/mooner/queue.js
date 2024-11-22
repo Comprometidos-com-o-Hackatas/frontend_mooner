@@ -1,22 +1,23 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 import { reactive } from 'vue';
+import { usePlayerStore } from './player';
 
 
 export const useQueueStore = defineStore('queue', () => {
     const state = useStorage('queue', reactive({
         queue: [],
         history: [],
-        currentSong: {},
+        currentSong: {artists: [],},
         saveOrder: [],
     }))
+    const playerStore = usePlayerStore()
 
     function setCurrentSong(song) {
         if (state.value?.currentSong?.player) { 
             addSongToHistory()
         }
         state.value.currentSong = song;
-        console.log(state.value.currentSong)
     }
 
     function addSongToQueue(newSong) {
@@ -38,7 +39,7 @@ export const useQueueStore = defineStore('queue', () => {
 
     function nextSong() {
         setCurrentSong(state.value.queue.shift());
-        
+        playerStore.play();
     }
 
     function previousSong() {

@@ -8,16 +8,14 @@ import repeat from '@/assets/images/icons/repeat.vue'
 import random from '@/assets/images/icons/random.vue'
 import settings from '@/assets/images/icons/settingsdot.svg'
 import sound_down from '@/assets/images/icons/sound-down.svg'
-import { useQueueStore } from '@/stores'
+import { usePlayerStore, useQueueStore } from '@/stores'
 import { data } from '@/utils/music/music'
 import AudioPlayer from './AudioPlayer.vue'
 
 const QueueStore = new useQueueStore()
-const songPlayer = ref(null)
+const playerStore = usePlayerStore()
 const showVolume = ref(false)
 const volume = ref(50)
-
-QueueStore.player = computed(() => songPlayer.value)
 
 </script>
 
@@ -62,8 +60,8 @@ QueueStore.player = computed(() => songPlayer.value)
         />
         <img
           class="absolute top-3 left-3.5 w-6 h-6 z-30 brightness-200 cursor-pointer"
-          @click="usePlay"
-          :src="QueueStore.is_playing ? pause : play"
+          @click="playerStore.usePlay"
+          :src="playerStore.state.is_playing ? pause : play"
         />
       </div>
       <img

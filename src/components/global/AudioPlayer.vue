@@ -14,5 +14,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <audio ref="songPlayer" class="" :src="queueStore.state.currentSong"></audio>
+    <audio ref="songPlayer" class="" :src="queueStore.state.currentSong.player.url"></audio>
 </template>
