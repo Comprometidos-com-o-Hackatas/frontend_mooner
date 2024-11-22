@@ -35,7 +35,6 @@ class PlaylistService {
         try {
             
             const {data} = await api.get(`/playlists/?owners_email=${owner}`, {headers: {'authorization': `Bearer ${token}`}});
-            console.log(data.results)
         return data.results
         } catch (error) {
             console.log('Error in getPlaylistsBySongs', error);

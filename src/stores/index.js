@@ -17,6 +17,7 @@ import { useImgStore } from "./file/image";
 import { usePaymentStore } from "./payments/payment";
 import { useQueueStore } from "./mooner/queue";
 import { useAlbumStore } from "./mooner/albuns";
+import { usePlayerStore } from "./mooner/player";
 
 export {
     useSignUpStore,
@@ -38,4 +39,5 @@ export {
     useImgStore,
     useGenreStore,
     usePaymentStore,
+    usePlayerStore,
 }

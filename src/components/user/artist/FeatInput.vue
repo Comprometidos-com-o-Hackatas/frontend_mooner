@@ -11,7 +11,6 @@ const feats = ref([])
 
 async function filterArtists(){
     const response = await ArtistStore.getArtistsByName(searchartist.value, LoginStore.access)
-    console.log(response)
 }
 
 function addfeats(){

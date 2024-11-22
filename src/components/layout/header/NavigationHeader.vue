@@ -4,7 +4,7 @@ import FollowingBox from './FollowingBox.vue'
 import CommunityBox from './CommunityBox.vue'
 import { data_header_icons, selectIcon, returnActive } from '@/utils/music/music'
 import LunaIA from './LunaIA.vue'
-import { computed, onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 import { usePlaylistStore, useLoginStore, useUserStore, useCommunityStore, useQueueStore} from '@/stores'
 
 const userStore = useUserStore()
@@ -44,7 +44,6 @@ const communityBody = reactive({
 })
 
 const createPlaylist = async (playlist, token) => {
-  console.log(playlist)
   await playlistStore.createPlaylist(playlist, token)
 }
 

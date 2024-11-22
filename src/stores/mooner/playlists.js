@@ -79,7 +79,6 @@ export const usePlaylistStore = defineStore('playlist', () => {
     state.loading = true
     try {
       const response = await PlaylistService.getPlaylistsByOwner(owner, token)
-      console.log(response)
       state.playlistsByOwner = response
     } catch (error) {
       state.error = error

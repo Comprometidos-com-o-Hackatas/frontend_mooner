@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 
 
 export const useQueueStore = defineStore('queue', () => {
@@ -11,13 +11,12 @@ export const useQueueStore = defineStore('queue', () => {
         saveOrder: [],
     }))
 
-    const is_playing = ref(false)    
-
     function setCurrentSong(song) {
         if (state.value?.currentSong?.player) { 
             addSongToHistory()
         }
         state.value.currentSong = song;
+        console.log(state.value.currentSong)
     }
 
     function addSongToQueue(newSong) {
@@ -31,7 +30,6 @@ export const useQueueStore = defineStore('queue', () => {
 
     function addSongToHistory() {
         state.value.history.push(state.value.currentSong)
-        // Limitando o histórico a 10 músicas
         if (state.value.history.length > 10) {
             state.value.history.shift();
         }
@@ -40,6 +38,7 @@ export const useQueueStore = defineStore('queue', () => {
 
     function nextSong() {
         setCurrentSong(state.value.queue.shift());
+        
     }
 
     function previousSong() {
@@ -69,11 +68,9 @@ export const useQueueStore = defineStore('queue', () => {
             state.value.saveOrder = []
         }
     }
-
     
     return {
         state,
-        is_playing,
         setCurrentSong,
         addSongToQueue,
         addSongToHistory,
