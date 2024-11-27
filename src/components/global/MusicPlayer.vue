@@ -37,9 +37,8 @@ const volume = ref(50)
       <input 
       type="range" 
       class="volume" 
-      :class="showVolume ? 'volume-visible' : 'volume-hidden'"
+      :class="showVolume ? 'volume-open volume' : 'volume-close volume-hidden volume'"
       min="0" max="100" 
-      v-show="showVolume" 
       v-model="volume"
       @input="playerStore.state.songPlayer.volume = volume/100"
       :style="{
@@ -114,24 +113,45 @@ const volume = ref(50)
 </template>
 
 <style scoped>
+
+@keyframes volume-open-animation{
+  0% {
+    opacity: 0;
+    width: 0px
+  }
+  100% {
+    width: 100px;
+    opacity: 1;
+  }
+}
+
+@keyframes volume-close-animation{
+  0% {
+    width: 100px;
+  }
+  100% {
+    width: 0px;
+    opacity: 0;
+  }
+}
+
+.volume-open {
+  animation: volume-open-animation 0.4s ease 1;
+}
+
+.volume-close {
+  animation: volume-close-animation 0.4s ease 1;
+}
+
 .volume-hidden {
-  transform: translateX(-150%); /* Posicionado fora da tela */
-  opacity: 0; /* Invisível */
-  transition: transform 1s ease, opacity 1s ease;
+  width: 0px;
+  opacity: 0;
 }
-
-/* Estado visível (animado) */
-.volume-visible {
-  transform: translateX(0); /* Move para a posição original */
-  opacity: 1; /* Torna visível */
-  transition: transform 1s ease, opacity 1s ease;
-}
-
 /* Estilo básico do slider (já existente) */
 .volume {
   -webkit-appearance: none;
   appearance: none;
-  width: 100px;
+  max-width: 100px;
   height: 8px;
   background: linear-gradient(to right, #8c5fec 0%, #8c5fec 50%, #ddd 50%, #ddd 100%);
   border-radius: 5px;
