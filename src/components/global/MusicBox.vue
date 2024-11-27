@@ -64,8 +64,7 @@ async function createsong() {
 }
 
 function setSong() {
-  if (QueueStore.state.currentSong != props.music_data) {
-    console.log('repetiu')
+  if (QueueStore.state.currentSong != props.music_data){
     QueueStore.setCurrentSong(props.music_data)
     playerStore.play()
   }

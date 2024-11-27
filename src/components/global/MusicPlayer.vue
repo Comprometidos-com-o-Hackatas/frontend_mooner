@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import play from '../../assets/images/icons/play.svg'
 import pause from '../../assets/images/icons/pause.svg'
 import prev from '../../assets/images/icons/prev.svg'
@@ -8,12 +8,14 @@ import repeat from '@/assets/images/icons/repeat.vue'
 import random from '@/assets/images/icons/random.vue'
 import settings from '@/assets/images/icons/settingsdot.svg'
 import sound_down from '@/assets/images/icons/sound-down.svg'
-import { usePlayerStore, useQueueStore } from '@/stores'
+import sound_up from '@/assets/images/icons/sound-up.svg'
+import sound_mute from '@/assets/images/icons/sound-mute.svg'
+import { useQueueStore, usePlayerStore } from '@/stores'
 import { data } from '@/utils/music/music'
 import AudioPlayer from './AudioPlayer.vue'
 
 const QueueStore = new useQueueStore()
-const playerStore = usePlayerStore()
+const playerStore = new usePlayerStore()
 const showVolume = ref(false)
 const volume = ref(50)
 
@@ -24,16 +26,26 @@ const volume = ref(50)
     v-show="QueueStore.state?.currentSong"
     class="flex w-[98%] ml-[1%] mr-[1%] fixed bottom-0 h-[9%] justify-between items-center bg-[#3B2174] z-20 rounded-xl p-4"
   >
-    <div class="volume absolute left-35 z-50 bg-black w-1">
-      <input type="range" class="volume" min="0" max="100" v-show="showVolume" v-model="volume" />
-    </div>
     <div class="flex flex-row relative justify-center items-center gap-2">
       <img
         class="w-6 h-6 z-30 cursor-pointer brightness-200"
         @click="showVolume = !showVolume"
-        :src="sound_down"
+        :src="(volume == 0) ? sound_mute : (volume < 50) ? sound_down : sound_up"
         alt=""
       />
+      <div class="relative left-35 z-50">
+      <input 
+      type="range" 
+      class="volume" 
+      :class="showVolume ? 'volume-visible' : 'volume-hidden'"
+      min="0" max="100" 
+      v-show="showVolume" 
+      v-model="volume"
+      @input="playerStore.state.songPlayer.volume = volume/100"
+      :style="{
+        background: `linear-gradient(to right, #8c5fec ${volume}%, #ddd ${volume}%)`
+        }"/>
+    </div>
       <img
         :src="!data[3].liked ? data[3].img[0] : data[3].img[1]"
         @click="data[3].liked = !data[3].liked"
@@ -60,7 +72,7 @@ const volume = ref(50)
         />
         <img
           class="absolute top-3 left-3.5 w-6 h-6 z-30 brightness-200 cursor-pointer"
-          @click="playerStore.usePlay"
+          @click="playerStore.usePlay()"
           :src="playerStore.state.is_playing ? pause : play"
         />
       </div>
@@ -74,8 +86,8 @@ const volume = ref(50)
         <span class="text-base text-white font-extralight">{{
           QueueStore?.state?.currentSong?.title
         }}</span>
-        <p class="text-xs font-thin text-white">
-          {{ QueueStore?.state?.currentSong?.artists.map((artist) => artist.artistic_name).join(',') }}
+        <p class="text-xs font-thin text-white" v-if="QueueStore?.state?.currentSong?.artists">
+          {{ QueueStore?.state?.currentSong?.artists.map((artist) => artist?.artistic_name).join(',') }}
         </p>
       </div>
     </div>
@@ -102,7 +114,69 @@ const volume = ref(50)
 </template>
 
 <style scoped>
-.volume {
-  transform: rotate(-90deg);
+.volume-hidden {
+  transform: translateX(-150%); /* Posicionado fora da tela */
+  opacity: 0; /* Invisível */
+  transition: transform 1s ease, opacity 1s ease;
 }
+
+/* Estado visível (animado) */
+.volume-visible {
+  transform: translateX(0); /* Move para a posição original */
+  opacity: 1; /* Torna visível */
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+/* Estilo básico do slider (já existente) */
+.volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 8px;
+  background: linear-gradient(to right, #8c5fec 0%, #8c5fec 50%, #ddd 50%, #ddd 100%);
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+/* Thumb personalizado */
+.volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border: 2px solid #8c5fec;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.volume::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border: 2px solid #8c5fec;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+/* Trilho (track) */
+.volume::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px; /* Altura da trilha */
+  border-radius: 5px;
+  background: transparent; /* A trilha é definida pelo elemento principal */
+}
+
+.volume::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background: transparent;
+  border-radius: 5px;
+}
+
 </style>

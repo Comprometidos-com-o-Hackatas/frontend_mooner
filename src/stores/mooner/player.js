@@ -9,9 +9,21 @@ export const usePlayerStore = defineStore('player', () => {
     })
 
     const play = () => {
-        console.log(state.songPlayer);
-        state.songPlayer.play()
+        if (state.songPlayer.readyState === 0) state.songPlayer.load();
+
+        const promise = state.songPlayer.play()
+
+        if (promise !== undefined) {
+            promise.then(() => {
+                console.log('funfou')
+            })
+            .catch(error => {
+                state.songPlayer.play()
+                console.log('deu pau e não funfou' + error)
+            })
+        }
         state.is_playing = true
+
     }
 
     const pause = () => {
@@ -19,7 +31,6 @@ export const usePlayerStore = defineStore('player', () => {
         state.is_playing = false
     }
     const usePlay = () => {
-        console.log(state) 
         if (state.is_playing) {
             state.songPlayer.pause()
             state.is_playing = false
