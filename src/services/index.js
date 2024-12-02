@@ -15,6 +15,7 @@ import GenreService from "./genre/genre";
 import DocumentService from "./document/document";
 import ImageService from "./images/image";
 import PaymentMethodService from "./payments/paymentMethod";
+import MoonWaveService from "./music/moonWave"
 
 export {
     AlbumService,
@@ -34,4 +35,5 @@ export {
     ImageService,
     DocumentService,
     PaymentMethodService,
+    MoonWaveService
 }

@@ -10,14 +10,18 @@ import settings from '@/assets/images/icons/settingsdot.svg'
 import sound_down from '@/assets/images/icons/sound-down.svg'
 import sound_up from '@/assets/images/icons/sound-up.svg'
 import sound_mute from '@/assets/images/icons/sound-mute.svg'
-import { useQueueStore, usePlayerStore } from '@/stores'
+import backward from '@/assets/images/icons/backward.svg'
+import forward from '@/assets/images/icons/forward.svg'
+import { useQueueStore, usePlayerStore, useMoonStore, useLoginStore } from '@/stores'
 import { data } from '@/utils/music/music'
 import AudioPlayer from './AudioPlayer.vue'
 
-const QueueStore = new useQueueStore()
-const playerStore = new usePlayerStore()
-const showVolume = ref(false)
-const volume = ref(50)
+const QueueStore = new useQueueStore();
+const playerStore = new usePlayerStore();
+const moonStore = new useMoonStore();
+const LoginStore = new useLoginStore();
+const showVolume = ref(false);
+const volume = ref(50);
 
 </script>
 
@@ -53,6 +57,12 @@ const volume = ref(50)
     </div>
     <div class="flex flex-row relative items-center gap-2">
       <img
+        class="cursor-pointer w-6 h-6 z-30 brightness-200"
+        :src="backward"
+        @click="playerStore.state.songPlayer.currentTime -= 10"
+        alt=""
+      />
+      <img
         :class="
           QueueStore.state.history.length == 0 ? 'brightness-50' : 'brightness-200 cursor-pointer'
         "
@@ -81,6 +91,12 @@ const volume = ref(50)
         @click="QueueStore.nextSong()"
         alt=""
       />
+      <img
+        class="cursor-pointer w-6 h-6 z-30 brightness-200"
+        :src="forward"
+        @click="playerStore.state.songPlayer.currentTime += 10"
+        alt=""
+      />
       <div class="flex flex-col items-start">
         <span class="text-base text-white font-extralight">{{
           QueueStore?.state?.currentSong?.title
@@ -90,6 +106,12 @@ const volume = ref(50)
         </p>
       </div>
     </div>
+    <button @click="moonStore.connectMoonWave(LoginStore.user.email)" class="text-white">
+      moonwave
+    </button>
+    <button @click="moonStore.disconnectMoonWave()" class="text-white">
+      disconnect
+    </button>
     <div class="flex flex-row relative items-center">
       <random
         @click="QueueStore.randomize"
