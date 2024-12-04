@@ -1,15 +1,16 @@
-<script>
+<script setup>
 
 </script>
 
 <template>
-    <div class="flex w-full">
-        <div class="flex flex-col h-screen p-2 gap-2">
-            <div class="w-full ">
-                <h2 class="text-xl font-extralight">Comunidades Que Decolam</h2>
-            </div>
-            <div class="w-[100%] max-w-[95%] h-[35%] gap-2">
-                <div class="flex flex-col justify-center w-[30%] h-full relative">
+    <div class="w-full">
+        <div class="w-full pl-5">
+            <h2 class="text-xl font-extralight">Comunidades Que Decolam</h2>
+        </div>
+
+        <div class="flex overflow-hidden flex-wrap gap-4 max-w-[1800px] p-5">
+            <div v-for="item in 12" :key="item" class="w-[450px] h-[auto] gap-2">
+                <div class="flex flex-col justify-center w-full h-full relative">
                     <div class="flex flex-col justify-center w-full h-[100%]">
 
                         <div class="w-full relative h-[50%]">
@@ -44,7 +45,7 @@
                             <div class="flex justify-between w-full h-[10%] ">
                                 <div class="w-[34.5%] flex justify-center items-center">
                                     <h4 class="text-xs font-thin">
-                                        <!-- Numero de mebros -->    dada
+                                        <!-- Numero de mebros --> dada
                                     </h4>
                                 </div>
                                 <div class="flex justify-center items-center rounded-lg w-[25%] h-full bg-purple-700">
@@ -52,7 +53,7 @@
                                 </div>
                                 <div class="w-[37.5%] flex justify-center items-center">
                                     <h4 class="text-xs font-thin">
-                                    <!-- Numero de membros online--> faddsds
+                                        <!-- Numero de membros online--> faddsds
                                     </h4>
                                 </div>
                             </div>
