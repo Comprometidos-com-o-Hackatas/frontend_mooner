@@ -46,11 +46,16 @@ const router = createRouter({
           component: () => import('../views/ArtistView.vue'),
           props: true
           },
-                            {
+        {
           path: 'createcommunity/',
           name: 'createcommunity',
           component: () => import('../views/CommunityCreateView.vue')
-        }
+          },
+        {
+          path: '/CommunityHome',
+          name: 'CommunityHome',
+          component: () => import('../views/CommunityView.vue')
+          },
       ],
     },
     {
@@ -121,6 +126,7 @@ const router = createRouter({
           name: 'beartist',
           component: () => import('../views/BeAnArtistView.vue')
         },
+        
       ]
     },
     {
