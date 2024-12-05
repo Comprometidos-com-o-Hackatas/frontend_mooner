@@ -1,11 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { useSongStore, useLoginStore, usePlaylistStore, useQueueStore, useNavigationStore } from '@/stores/index'
+import { useSongStore, useLoginStore, usePlaylistStore, useQueueStore, useNavigationStore, useArtistStore } from '@/stores/index'
 
-const songStore = useSongStore()
-const loginStore = useLoginStore()
-const playlistStore = usePlaylistStore()
-const queueStore = useQueueStore()
 const navigationStore = useNavigationStore()
 
 import NavigateHomeButtons from '@/components/buttons/NavigateHomeButtons.vue';
