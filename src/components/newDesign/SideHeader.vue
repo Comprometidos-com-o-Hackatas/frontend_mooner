@@ -68,7 +68,7 @@ const isOpen = shallowRef(false)
 
         <div class="w-full flex flex-col">
             <ul :class="responsive < 1500 ? 'duration-500 w-full list-none flex flex-col gap-3 items-center mt-10' : 'duration-500 w-full list-none flex flex-col gap-3 justify-center items-center mt-10'">
-                <li :class="responsive < 1500 ? 'w-[100%] flex flex-col justify-center  text-white duration-500 py-1 px-5' : 'w-[90%] items-center flex flex-col justify-center  text-white duration-500 p-1'" v-for="item, index in headerInfo">
+                <li class="cursor-pointer" :class="responsive < 1500 ? 'w-[100%] flex flex-col justify-center  text-white duration-500 py-1 px-5' : 'w-[90%] items-center flex flex-col justify-center  text-white duration-500 p-1'" v-for="item, index in headerInfo">
                     <span @click="setDropDown(index), router.push(item.to)" :class="responsive < 1500 ? isOpen ? 'w-full flex h-10 gap-3 items-center relative hover:bg-[#1C1C1C] duration-500 rounded-xl py-6' : 'w-full justify-center flex h-10 items-center relative hover:bg-[#1C1C1C] duration-500 rounded-xl py-6' : 'w-full flex h-10 gap-3 items-center relative hover:bg-[#1C1C1C] duration-500 rounded-xl py-6'" >
                         <span class="ml-4 2xl:ml-0 text-[35px]" v-if="item.icon.startsWith('mdi')" :class="item.icon"></span>
                         <img v-else class="ml-4 2xl:ml-0 h-[40px] w-[35px]" :src="item.icon" alt="">
@@ -79,7 +79,6 @@ const isOpen = shallowRef(false)
                     <div :class="item.active ? 'animation' : 'normal'" v-if="item.isList && item.active && responsive < 1500 ? isOpen ? item.active : false : item.active">
                         <div v-if="item.title == 'Playlists'" @click="createPlaylist(playlistBody, token)" class="flex items-center gap-4 p-2 mt-2 w-full justify-center cursor-pointer hover:bg-[#1C1C1C] rounded-lg"><span :class="responsive < 1500 ? isOpen ? '' : 'hidden' : '' " v-if="item.isList && item.add " class="mdi mdi-plus-circle text-white text-lg"></span>
                         <p v-if="item.isList && item.add ">Create Playlist</p></div>
-                        
                         <div v-if="item.title == 'Communitys'" @click="router.push('/createcommunity/')" class="flex items-center gap-4 p-2 mt-2 w-full justify-center cursor-pointer hover:bg-[#1C1C1C] rounded-lg"><span :class="responsive < 1500 ? isOpen ? '' : 'hidden' : '' " v-if="item.isList && item.add " class="mdi mdi-plus-circle text-white text-lg"></span>
                             <p v-if="item.isList && item.add ">Create Community</p></div>
                             <SideHeaderOptions :data="showData(item.name)" :type="item.name"/>

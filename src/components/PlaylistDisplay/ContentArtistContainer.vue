@@ -41,14 +41,12 @@ const token = loginStore.access
 onMounted(async() => {
   songs.value = []
   await  albumStore.getAlbunsByAutor(artistStore.selectedArtist.user, token)
-  await albumStore.getAlbuns(token)
   await songStore.getSongsByArtist(artistStore.selectedArtist.artistic_name, token)
-  // await albumStore.getAlbuns(token)
- 
+  console.log(albumStore.albunsByAutor)
   await communityStore.getCommunitysByAutor(artistStore.selectedArtist.user, token)
   await communityStore.getCommunitysPostsByCommunity(communityStore.communitysByAutor[0].id, token)
 
-  console.log(props.artist)
+  
 })
 
 </script>
@@ -75,7 +73,7 @@ onMounted(async() => {
         <ArtistCommunity :data_posts="communityStore.communitysPostsByCommunity" :data="communityStore.communitysByAutor[0]" />
     </div>
     <div class="h-[90%] lg:h-full w-[260px] top-5 right-3 flex flex-col mr-1 fixed lg:relative lg:w-[95%] lg:right-0">
-        <AlbunsArtistContainer :data="albumStore.albunsByAutor" class="mr-5" />
+        <AlbunsArtistContainer v-if="artistStore.selectedArtist.user == albumStore.albunsByAutor[0]?.autor.user":data="albumStore.albunsByAutor" class="mr-5" />
     </div>
       </div>
       

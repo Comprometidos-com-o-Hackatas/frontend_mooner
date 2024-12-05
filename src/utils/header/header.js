@@ -17,9 +17,9 @@ export const dataHeader = reactive({
 })
 
 export const headerInfo = ref([
-    {title: 'Home', icon: 'mdi mdi-home-variant', to: '/'},
+    {title: 'Página Inicial', icon: 'mdi mdi-home-variant', to: '/'},
     {title: 'Luuna', icon: luuna, to: '/luuna'},
     {title: 'Playlists', icon: 'mdi mdi-playlist-music', isList: true, name: 'playlist', active: false, add: true},
-    {title: 'Artists', icon: 'mdi mdi-account-music', isList: true, name: 'artist', active: false, add: false},
-    {title: 'Communitys', icon: 'mdi mdi-account-group', isList: true, name: 'community', active: false, add: true},
+    {title: 'Artistas', icon: 'mdi mdi-account-music', isList: true, name: 'artist', active: false, add: false},
+    {title: 'Comunidades', icon: 'mdi mdi-account-group', isList: true, name: 'community', active: false, add: true},
 ])

@@ -33,11 +33,6 @@ export const transformToId = () => {
 
   const updateBody = async (playlist, token, id) => {
     await playlistStore.updatePlaylist(playlist, token)
-    
-    window.location.replace('http://127.0.0.1:5173/')
-    setTimeout(()=>{
-      window.location.reload()
-    },500)
   }
   
 export const updatePlaylists = async (playlist, token, image, songs, id) => {

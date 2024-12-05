@@ -9,17 +9,21 @@
 }
 .lunna-chat{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 15px;
     align-items: center;
     height: 40px;
+    width: 100%;
 }
 .lunna-container{
-    background-color: black;
+    background-color: #121212;
     padding: 20px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 96%;
+    height: 100%;
 }
 #sendsvg{
     width: 23px;
@@ -28,7 +32,7 @@
     background-color: #282828;
     padding: 10px;
     font-size: 15px;
-    width: 250px;
+    width: 600px;
     color: white;
     border-radius: 20px;
 }
@@ -60,7 +64,7 @@
     }
 }
 .chat-container{
-    height: 275px;
+    height: 375px;
     color: white;
     display: flex;
     flex-direction: column;

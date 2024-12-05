@@ -10,9 +10,9 @@ class PlaylistService {
      * @returns {Promise<Array>} A promise that resolves to an array of slides
      * @throws {Error} If an error occurs while retrieving the slides
      */
-    async getPlaylist(token) {
+    async getPlaylist(token, page) {
         try {
-            const { data } = await api.get('/playlists', {headers: {'authorization': `Bearer ${token}`}});
+            const { data } = await api.get(`/playlists/?page=${page != undefined ? page : ''}`, {headers: {'authorization': `Bearer ${token}`}});
             console.log( "Service: GetPlaylist - return success")
             return data.results;
         } catch (error) {

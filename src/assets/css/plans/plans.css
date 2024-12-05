@@ -55,8 +55,8 @@
     }
 }
 .card-plan{
-    width: 300px;
-    height: 400px;
+    width: 350px;
+    min-height: 450px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -64,6 +64,7 @@
     justify-content: center;
     gap: 20px;
     transition: 1s;
+    padding: 10px;
 }
 #notice{
     display: none;
@@ -91,6 +92,7 @@
     justify-content: center;
     align-items: center;
     line-height: 30px;
+    color: white;
     gap: 40px;
     & div{
         display: flex;
@@ -117,6 +119,8 @@
     justify-content: center;
     flex-direction: column;
     gap: 10px;
+    height: 200px;
+    color: white;
     & li{
         font-weight: 500;
     }

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useSongStore, useLoginStore, usePlaylistStore, useQueueStore,} from '@/stores/index'
 import MusicBox from '@/components/global/MusicBox.vue'
 
@@ -18,7 +18,10 @@ const token = loginStore.access
 const songs = ref([])
 
 
-
+onUnmounted(() => {
+  window.location.reload()
+  window.location.replace('http://127.0.0.1:5173/')
+})
 onMounted(() => {
   console.log('rodou')
   songs.value = []
@@ -96,7 +99,7 @@ const data_add_secondary = (music, setAction) => {
     </div>
     <div class="w-full h-full bg-black opacity-50"></div>
   </div>
-  <main :class="queueStore.state?.currentSong ? 'h-[82dvh]' : 'min-h-dvh '" class=" w-full xl:w-dvw lg:h-full flex justify-end gap-4">
+  <main :class="queueStore.state?.currentSong ? 'h-[82dvh]' : 'min-h-dvh h-dvh'" class=" w-full xl:w-dvw lg:h-full flex justify-end gap-4">
     <section class="my-auto mr-2 xl:m-0 xl:w-full h-full flex rounded-l-lg w-[98%] bg-[#121212] lg:flex-col lg:justify-center">
     <InfoContainer @sendEmitData="captureEmit()" @updatePlaylist="updatePlaylists(playlistStore.newPlaylist, token, saveimg, saveData != undefined ? saveData.songs : [], id)" @playAndQueue="playAndQueue" @isEdit="edit = !edit" @isPlay="play = !play" :edit="edit" :play="play" :img="img" :saveimg="saveimg"/>
     <ContentContainer :setAction="setAction" @setAddOn="isOn = !isOn, setAction = 'add'" @setRemoveOn="setAction != 'remove' ? setAction = 'remove' : setAction = ''" :settings="settings" @setSettings="settings = !settings"  @sendEmitData="captureEmit" @removeFromPlaylist="addToPlaylist(saveData, songs, token)" @addToPlaylist="addToPlaylist(saveData, songs, token)" />

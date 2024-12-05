@@ -12,7 +12,7 @@ class SongService {
      */
     async getSong(token) {
         try {
-            const { data } = await api.get('/songs', {headers: {'authorization': `Bearer ${token}`}});
+            const { data } = await api.get('/songs');
             console.log( "Service: GetSong - return success")
             return data.results;
         } catch (error) {
@@ -23,7 +23,7 @@ class SongService {
 
     async getSongByTitle(name, token) {
         try {
-            const {data} = await api.get(`/songs/?search=${name}`, {headers: {'authorization': `Bearer ${token}`}});
+            const {data} = await api.get(`/songs/?search=${name}`);
         return data.results
         } catch (error) {
             console.log('Error in getSongByTitle', error);
@@ -33,7 +33,7 @@ class SongService {
 
     async getSongByGenre(genre, token){
         try {
-            const { data } = await api.get(`/songs/?search=${genre}`, {headers: {'authorization': `Bearer ${token}`}});
+            const { data } = await api.get(`/songs/?search=${genre}`);
             console.log( "Service: AddSong - return success")
             return data.results;
         } catch (error) {

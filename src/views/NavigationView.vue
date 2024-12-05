@@ -8,9 +8,10 @@ import GenreCard from '@/components/searchPage/GenreCard.vue';
 import InputGlobal from '@/components/global/InputGlobal.vue';
 import { onMounted, ref } from 'vue';
 import HistoryConnect from '@/components/searchPage/HistoryConnect.vue';
-import { useLoginStore, useSongStore } from '@/stores';
+import { useLoginStore, useNavigationStore, useSongStore } from '@/stores';
 const SongStore = useSongStore()
 const LoginStore = useLoginStore()
+const navigationStore = useNavigationStore()
 const search = ref('')
 async function FilterSong(){
     await SongStore.getSongsByName(search.value, LoginStore.access)
@@ -25,9 +26,9 @@ onMounted(async() =>{
 })
 </script>
 <template>
-    <ContainerNavigateButtons>
-        <NavigateHomeButtons  :has_active_bg="true" v-for="item,index in data_page" :key="index" :title="item.title" :active="item.active" @goSection="selectSection(index, data_page, item.title)" />
-    </ContainerNavigateButtons>
+    <ContainerNavigateButtons class="mt-5">
+        <NavigateHomeButtons :has_active_bg="true" v-for="item,index in navigationStore?.state?.data_page" :key="index" :title="item.title" :active="item.active" @goSection="navigationStore.selectSection(index, navigationStore.state.data_page, item.title, navigationStore.state.data_section)" />
+      </ContainerNavigateButtons>
     <section class="p-5 w-screen">  
         <InputGlobal placeholder="Procure suas músicas aqui...." id="search-music"  v-model:value="search" @input="FilterSong"/>
         <HistoryConnect title="Historico"/>

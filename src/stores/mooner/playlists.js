@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
 import { PlaylistService } from '@/services'
 import { useStorage } from '@vueuse/core'
+import { useNavigationStore } from '../global/navigation'
 
 /**
  * Store for managing organs data.
@@ -25,6 +26,8 @@ import { useStorage } from '@vueuse/core'
  * @returns {SpecieStore} The OrganStore instance.
  */
 export const usePlaylistStore = defineStore('playlist', () => {
+
+  const navigationStore = useNavigationStore()
 
   const state = useStorage('playlistStorage', {
     playlists: [],
@@ -58,12 +61,14 @@ export const usePlaylistStore = defineStore('playlist', () => {
    * @async
    * @function getSpecies
    */
-  const getPlaylist = async (token) => {
+  const getPlaylist = async (token, page) => {
     state.value.loading = true
     try {
-      state.value.playlists = await PlaylistService.getPlaylist(token)
+      state.value.playlists = await PlaylistService.getPlaylist(token, page)
     } catch (error) {
       state.value.error = error
+      navigationStore.simpleState.break = true
+      
     } finally {
       state.value.loading = false
       state.value.connection = true

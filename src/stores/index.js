@@ -2,7 +2,7 @@ import { useSignUpStore } from "./user/signup";
 import { useLoginStore } from "./user/login";
 import { useLunnaIAStore } from "./IA/luuna";
 import { useHistoryStore } from "./history/history";
-import { useNavigationStore } from "./navigation/navigation";
+import { useNavigationStore } from "./global/navigation";
 import { useSongStore } from "./mooner/song";
 import { usePlaylistStore } from "./mooner/playlists";
 import { useUserStore } from "./user/user";

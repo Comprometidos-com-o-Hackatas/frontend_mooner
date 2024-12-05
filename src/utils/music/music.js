@@ -40,20 +40,28 @@ export const returnActive = computed(() => {
   })
 
 export const data_section = ref([
-    {title: 'Playlists', active: false}, {title: 'Músicas', active: false}, {title: 'Artistas', active: false}
+    {title: 'Geral', active: true},
+    {title: 'Playlists', active: false}, {title: 'Músicas', active: false}, {title: 'Artistas', active: false},
+    
   ])
 
 export const data_page = ref([
     {title: 'Minha Biblioteca', active: true}, {title: 'Navegar', active: false}
   ])
 
-export  const data_music_home = ref([
+export const data_music_home = ref([
     {music: [], title: ''}, {music: [], title: 'Recomendamos para você'}, {music: [], title: 'Artistas que Você Gosta'}, {music: [], title: 'Descobertas da Semana'}
   ])
 
-export const selectSection = (index, data, title) => {
+export const selectSection = (index, data, type) => {
     for (let i = 0; i < data.length; i++) {
-      data[i].active = i === index ? data[i].active = true : false;
+      data[i].active = i === index ? data[i].active = true : false;      
     }
-    router.push({name: title})
+
+    if (type == 'navigate') {
+
+    data[index].title == 'Músicas' ? router.push('/musics') : data[index].title == 'Playlists' ? router.push('/playlists') : data[index].title == 'Artistas' ? router.push('/artists') : router.push('/')
+  } else {
+    data[index].title == 'Minha Biblioteca' ? router.push('/') : router.push('/navigation')
+  }
   };
