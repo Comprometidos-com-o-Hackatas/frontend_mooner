@@ -20,7 +20,6 @@ export const usePlayerStore = defineStore('player', () => {
             })
             .catch(error => {
                 state.songPlayer.play()
-                // state.songPlayerVisual.play()
                 console.log('deu pau e não funfou' + error)
             })
         }
@@ -30,7 +29,6 @@ export const usePlayerStore = defineStore('player', () => {
 
     const pause = () => {
         state.songPlayer.pause()
-        // state.songPlayerVisual.pause()
         state.is_playing = false
     }
     const usePlay = () => {
@@ -38,7 +36,8 @@ export const usePlayerStore = defineStore('player', () => {
             pause()
         }
         else {
-            play()
+            state.songPlayer.play()
+            state.is_playing = true
         }
     }
 

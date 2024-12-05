@@ -45,9 +45,9 @@ export const useMoonStore = defineStore('moonWave', () => {
         if (state.value.socket){
             state.value.socket.onopen = () => {
                 state.value.host = loginStore.user.email == state.value.channel
-                if (!state.value.host){
-                    sendActions('link')
-                }
+                if (state.value.reconnect){
+                    if (!state.value.host) sendActions('link');
+                  }
             };
 
             state.value.socket.onmessage = (event) => {
@@ -67,28 +67,32 @@ export const useMoonStore = defineStore('moonWave', () => {
                 break;
             case 'sync':
                 if (!state.value.host){
-                    queueStore.state.currentSong = data.song;
-                    (data.state) ? playerStore.play() : playerStore.pause()
+                    queueStore.setCurrentSong(data.song);
                     playerStore.state.songPlayer.currentTime = data.timestamp;
-                    queueStore.state.queue = data.queue;
-                    queueStore.state.history = data.history;
+                    (data.state) ? playerStore.play() : playerStore.pause()
+                    if (data.queue) sendActions('queue');
+                    if (data.history) sendActions('history');
                 }
                 break;
 
             case 'time':
-                if (!state.value.host){
-                    playerStore.state.songPlayer.currentTime = data.timestamp;
-                }
+                playerStore.state.songPlayer.currentTime = data.timestamp;
                 break;
 
             case 'queue':
-                queueStore.state.queue = data.queue;
+                console.log(data.queue)
+                if (state.value.host) queueStore.state.queue = data.queue;
+                break;
+
+            case 'history':
+                if (state.value.host) queueStore.state.history = data.history;
                 break;
             
             case 'song':
                 queueStore.setCurrentSong(data.song);
+                playerStore.play()
                 break;
-            
+                
             case 'use':
                 playerStore.usePlay()
                 break;
@@ -116,8 +120,8 @@ export const useMoonStore = defineStore('moonWave', () => {
             const message = {
                 action: actions,
                 song: queueStore?.currentSong,
-                queue: queueStore?.queue,
-                history: queueStore?.queue,
+                queue: queueStore?.state.queue,
+                history: queueStore?.state.history,
                 timestamp: playerStore?.state?.songPlayer?.currentTime,
                 state: playerStore?.state?.is_playing,
             }

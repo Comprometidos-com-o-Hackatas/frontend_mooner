@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 import { usePlayerStore, useMoonStore } from '@/stores';
 
 
@@ -9,16 +9,21 @@ export const useQueueStore = defineStore('queue', () => {
     const state = useStorage('queue', reactive({
         queue: [],
         history: [],
-        currentSong: {artists: [],},
+        currentSong: {},
         saveOrder: [],
     }))
+
+    onMounted(() => {
+        if (!state.value.history) state.value.history = [];
+        if (!state.value.queue) state.value.queue = [];
+        if (!state.value.currentSong) state.value.currentSong = {};
+        if (!state.value.saveOrder) state.value.saveOrder = [];
+    })
     const playerStore = usePlayerStore()
     const moonStore = useMoonStore()
 
     const currentSong = computed(()=> state.value.currentSong)
     const is_playing = computed(()=> state.value.is_playing)
-    const queue = computed(()=> (state.value.queue) ? state.value.queue : [])
-    const history = computed(()=> (state.value.history) ? state.value.history : [])
 
 
     function setCurrentSong(song) {
@@ -34,17 +39,18 @@ export const useQueueStore = defineStore('queue', () => {
         console.log(newSong)
         if (state.value.currentSong.player) {
             state.value.queue.push(newSong);
+            if(moonStore.state.reconnect) {
+                moonStore.sendActions('queue')
+            }
         }   
         else {
             state.value.currentSong = newSong
         }
-        if(moonStore.state.reconnect) {
-            moonStore.sendActions('queue')
-        }
+        
     }
 
     function addSongToHistory() {
-        state.value.history.push(state.value.currentSong)
+        state?.value?.history.push(state.value.currentSong)
         if (state.value.history.length > 10) {
             state.value.history.shift();
         }
@@ -78,8 +84,8 @@ export const useQueueStore = defineStore('queue', () => {
         if (state.value.saveOrder.length == 0){
             state.value.saveOrder = state.value.queue
             for (let i = state.value.queue.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1)); // Escolhe um índice aleatório
-                [state.value.queue[i], state.value.queue[j]] = [state.value.queue[j], state.value.queue[i]]; // Troca os elementos
+                const j = Math.floor(Math.random() * (i + 1)); 
+                [state.value.queue[i], state.value.queue[j]] = [state.value.queue[j], state.value.queue[i]]; 
             }
         }
         else {
@@ -100,8 +106,6 @@ export const useQueueStore = defineStore('queue', () => {
         state,
         is_playing,
         currentSong,
-        queue,
-        history,
         setCurrentSong,
         addSongToQueue,
         addSongToHistory,

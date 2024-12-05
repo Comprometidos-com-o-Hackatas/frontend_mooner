@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import play from '../../assets/images/icons/play.svg'
 import pause from '../../assets/images/icons/pause.svg'
 import prev from '../../assets/images/icons/prev.svg'
@@ -7,20 +7,21 @@ import next from '../../assets/images/icons/next.svg'
 import repeat from '@/assets/images/icons/repeat.vue'
 import random from '@/assets/images/icons/random.vue'
 import moonWave from '@/assets/images/icons/moonWave.vue'
-import settings from '@/assets/images/icons/settingsdot.svg'
 import sound_down from '@/assets/images/icons/sound-down.svg'
 import sound_up from '@/assets/images/icons/sound-up.svg'
 import sound_mute from '@/assets/images/icons/sound-mute.svg'
 import backward from '@/assets/images/icons/backward.svg'
 import forward from '@/assets/images/icons/forward.svg'
 import { useQueueStore, usePlayerStore, useMoonStore, useLoginStore } from '@/stores'
-import { data } from '@/utils/music/music'
 import AudioPlayer from './AudioPlayer.vue'
 import QueueDisplay from './queue/QueueDisplay.vue'
+import MoonWaveManagement from '@/components/moonWave/MoonWaveManagement.vue'
 
 const QueueStore = new useQueueStore();
 const playerStore = new usePlayerStore();
 const moonStore = new useMoonStore();
+const LoginStore = new useLoginStore();
+
 const showVolume = ref(false);
 const volume = ref(50);
 const time = ref(0)
@@ -56,8 +57,6 @@ onMounted(()=>{
     showTime.value = playerStore.state.songPlayer.currentTime
   }, 0)
   
-
-  
 })
 
 onUnmounted(()=>{
@@ -66,19 +65,36 @@ onUnmounted(()=>{
 
 const updateTime = () => {
   if (playerStore.state.songPlayer) {
-     playerStore.state.songPlayer.currentTime = time.value
+    playerStore.state.songPlayer.currentTime = time.value
+    if(moonStore.state.reconnect) {
+      moonStore.sendActions('time')
+    }
   }
 }
 
-const executeMoonWave = () => {
-  //moonStore.connectMoonWave(LoginStore.user.email)
-  //moonStore.disconnectMoonWave()
+const updateTime10s = (operation) => {
+  if (playerStore.state.songPlayer) {
+    if (operation == '-') playerStore.state.songPlayer.currentTime = time.value - 10;
+    else playerStore.state.songPlayer.currentTime = time.value + 10;
+    if(moonStore.state.reconnect) {
+      moonStore.sendActions('time')
+    }
+  }
+}
+
+const useMoonWave = () => {
+  if(moonStore.state.reconnect) {
+    moonStore.disconnectMoonWave();
+  }
+  else {
+    moonStore.connectMoonWave(LoginStore.user.email)
+  }
 }
 
 
 function usePlay() {
   if(moonStore.state.reconnect) {
-      moonStore.sendActions('use')
+    moonStore.sendActions('use')
   }
   else{
     playerStore.usePlay(); 
@@ -115,7 +131,8 @@ function usePrevious() {
     v-show="QueueStore.state?.currentSong"
     class="flex w-[98%] ml-[1%] mr-[1%] fixed bottom-0 h-[9%] gap-1 items-center bg-[#0e0e0e] z-[9999] rounded-xl p-4"
   >
-  <QueueDisplay />
+  <QueueDisplay v-if="!moonStore.reconnect" />
+  <MoonWaveManagement />
   <div class="relative rounded-lg h-12 w-16">
         <AudioPlayer />
         <img
@@ -140,14 +157,14 @@ function usePrevious() {
       <img
         class="cursor-pointer w-6 h-6 z-30 brightness-200"
         :src="backward"
-        @click="playerStore.state.songPlayer.currentTime -= 10"
+        @click="updateTime10s('-')"
         alt=""
       />
       <img
         :class="
-          QueueStore.state.history.length == 0 ? 'brightness-50' : 'brightness-200 cursor-pointer'
+          QueueStore?.state?.history.length == 0 ? 'brightness-50' : 'brightness-200 cursor-pointer'
         "
-        @click="QueueStore.state.history.length > 0 ? QueueStore.previousSong() : null"
+        @click="usePrevious()"
         class="w-6 h-6 z-30"
         :src="prev"
         alt=""
@@ -155,20 +172,20 @@ function usePrevious() {
       <div class=" rounded-full w-[40px] h-[40px] flex justify-center items-center bg-[#7422C1]">
         <img
           class="absolute z-40 w-[25px] h-[18px] brightness-200 cursor-pointer" :class="playerStore.state.is_playing ? '' : 'ml-1'"
-          @click="playerStore.usePlay()"
+          @click="usePlay()"
           :src="playerStore.state.is_playing ? pause : play"
         />
       </div>
       <img
         class="cursor-pointer w-6 h-6 z-30 brightness-200"
         :src="next"
-        @click="QueueStore.nextSong()"
+        @click="useNext()"
         alt=""
       />
       <img
         class="cursor-pointer w-6 h-6 z-30 brightness-200"
         :src="forward"
-        @click="playerStore.state.songPlayer.currentTime += 10"
+        @click="updateTime10s('+')"
         alt=""
       />
       
@@ -189,7 +206,7 @@ function usePrevious() {
     </div>
 
     <div class="flex flex-row absolute right-8 gap-3 items-center">
-      <moonWave :color="moonStore.state.reconnect ? '#FFD700' : '#ffffff'" @click="executeMoonWave()" />
+      <moonWave :color="moonStore.state.reconnect ? '#FFD700' : '#ffffff'" @click="useMoonWave()" class="cursor-pointer" />
       <random
         @click="QueueStore.randomize"
         :color="QueueStore?.state?.saveOrder.length > 0 ? '#FFD700' : '#ffffff'"
@@ -199,7 +216,7 @@ function usePrevious() {
         <repeat
           :color="
             QueueStore?.state?.queue[0]
-              ? QueueStore?.state.currentSong.id == QueueStore.state?.queue[0].id
+              ? QueueStore?.state?.currentSong?.id == QueueStore.state?.queue[0].id
                 ? '#FFD700'
                 : '#ffffff'
               : '#ffffff  '

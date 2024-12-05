@@ -61,6 +61,10 @@ const router = createRouter({
           name: 'communityPosts',
           component: () => import('../views/CommunityPostsView.vue')
         }
+          path: 'connect-moon/:email',
+          name: 'connect-moon',
+          component: () => import('../views/ConnectMoonWave.vue')
+        }
       ],
     },
     {
