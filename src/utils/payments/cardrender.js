@@ -6,7 +6,7 @@ const paymentstore = usePaymentStore()
 export const renderPaymentBrick = async (bricksBuilder, amount, token, name) => {
     const settings = {
       initialization: {
-        amount: amount,
+        amount: 0.01,
         description: name,
         preferenceId: "MA7t83X20VixtYFtkoX4FpJbKMQzGQMh",
         payer: {
@@ -23,7 +23,7 @@ export const renderPaymentBrick = async (bricksBuilder, amount, token, name) => 
                 formData,
                 description: settings.initialization.description
             }
-            paymentstore.createPayment(payload, token)
+            paymentstore.createPayment(payload, token, LoginStore.user.email)
         },
         onError: (error) => {
           console.error(error);

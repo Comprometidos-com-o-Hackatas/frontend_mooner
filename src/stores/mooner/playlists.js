@@ -93,6 +93,7 @@ export const usePlaylistStore = defineStore('playlist', () => {
     try {
       const response = await PlaylistService.getPlaylistsByOwner(owner, token)
       state.value.playlistsByOwner = response
+      return state.value.playlistsByOwner
     } catch (error) {
       state.value.error = error
     } finally {

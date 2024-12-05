@@ -2,15 +2,17 @@
 import { headerInfo } from '@/utils/header/header'
 import SideHeaderOptions from './SideHeaderOptions.vue';
 import router from '@/router';
-import { usePlaylistStore, useLoginStore, useUserStore, useQueueStore} from '@/stores';
-import { shallowRef, reactive } from 'vue';
+import { usePlaylistStore, useLoginStore, useUserStore, useCommunityStore, useQueueStore} from '@/stores';
+import { shallowRef, reactive, onMounted } from 'vue';
 
 const playlistStore = usePlaylistStore()
 const loginStore = useLoginStore()
+const CommunityStore = useCommunityStore()
 const queueStore = useQueueStore()
 const userStore = useUserStore()
 const token = loginStore.access
 const user = userStore.myuser
+
 
 const props = defineProps({
  data: {
@@ -25,17 +27,10 @@ const playlistBody = reactive({
   cover: 'e44619db-4f03-4971-851f-a0e634af22a1'
 })
 
-const communityBody = reactive({
-  name: `Comunidade de ${user.email}`,
-  description: `Seja bem vindo a comunidade de ${user.email}`,
-  autor: user.email,
-})
-
 const createPlaylist = async (playlist, token) => {
   await playlistStore.createPlaylist(playlist, token)
   window.location.reload()
 }
-
 
 const showData = (data) => {
     if (data == 'playlist') {
@@ -43,10 +38,9 @@ const showData = (data) => {
     } else if (data == 'artist') {
         return props.data.artist.content
     } else {
-        props.data.community.content
+        return props.data.community.content
     }
 
-    console.log(props.data.playlist.content)
 }
 
 const setDropDown = (index) => {
@@ -61,9 +55,7 @@ const setDropDown = (index) => {
 const responsive = shallowRef(window.screen.width)
 
 const isOpen = shallowRef(false)
-
 </script>
-
 <template>
     <section class=" overflow-auto duration-500 mt-3 ml-3 rounded-lg flex flex-col items-center bg-[#121212] fixed z-[999]" :class="responsive < 1500 ? isOpen ? 'w-[300px]' :  'w-[80px]' : 'w-[300px]', queueStore.state?.currentSong ? 'h-[88dvh]' : 'h-[97dvh]'">
         <span v-if="responsive < 1500" @click="isOpen = !isOpen" :class="'duration-500 absolute bottom-10 bg-[#1f1f1f] px-4 py-2 text-white rounded-full'"><i class=" text-2xl" :class="!isOpen ? 'mdi mdi-arrow-right-thick' : 'mdi mdi-arrow-left-thick'"></i></span>
@@ -88,9 +80,9 @@ const isOpen = shallowRef(false)
                         <div v-if="item.title == 'Playlists'" @click="createPlaylist(playlistBody, token)" class="flex items-center gap-4 p-2 mt-2 w-full justify-center cursor-pointer hover:bg-[#1C1C1C] rounded-lg"><span :class="responsive < 1500 ? isOpen ? '' : 'hidden' : '' " v-if="item.isList && item.add " class="mdi mdi-plus-circle text-white text-lg"></span>
                         <p v-if="item.isList && item.add ">Create Playlist</p></div>
                         
-                        <div v-if="item.title == 'Communitys'" @click="createPlaylist(playlistBody, token)" class="flex items-center gap-4 p-2 mt-2 w-full justify-center cursor-pointer hover:bg-[#1C1C1C] rounded-lg"><span :class="responsive < 1500 ? isOpen ? '' : 'hidden' : '' " v-if="item.isList && item.add " class="mdi mdi-plus-circle text-white text-lg"></span>
+                        <div v-if="item.title == 'Communitys'" @click="router.push('/createcommunity/')" class="flex items-center gap-4 p-2 mt-2 w-full justify-center cursor-pointer hover:bg-[#1C1C1C] rounded-lg"><span :class="responsive < 1500 ? isOpen ? '' : 'hidden' : '' " v-if="item.isList && item.add " class="mdi mdi-plus-circle text-white text-lg"></span>
                             <p v-if="item.isList && item.add ">Create Community</p></div>
-                            <SideHeaderOptions :data="showData(item.name)" />
+                            <SideHeaderOptions :data="showData(item.name)" :type="item.name"/>
                     </div>
                 </li>
             </ul>

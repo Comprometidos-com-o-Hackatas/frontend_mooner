@@ -62,7 +62,7 @@ class CommunityPostsService {
      */
     async createCommunityPost(newPost, token) {
         try {
-            const { data } = await api.post('/communitys/', newPost, {headers: {'authorization': `Bearer ${token}`}});
+            const { data } = await api.post('/community-posts/', newPost, {headers: {'authorization': `Bearer ${token}`}});
             console.log( "Service: AddCommunity - return success")
             return data.results;
         } catch (error) {

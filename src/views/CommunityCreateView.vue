@@ -1,6 +1,9 @@
 <script setup>
+    import CommunityForm from '@/components/community/CommunityForm.vue';
 
 </script>
 <template>
-    <h1>Create Community</h1>
+    <div class="flex w-full p-5 items-center gap-10 flex-col">
+        <CommunityForm />
+    </div>
 </template>

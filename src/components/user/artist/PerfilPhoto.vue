@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { filterclasses, textfilter } from '@/utils/artist/artistfilters';
-import { useSongStore } from '@/stores';
+import { useCommunityStore, useSongStore } from '@/stores';
 import { useAlbumStore } from '@/stores/mooner/albuns';
 import { useDocumentStore, useImgStore, useLoginStore } from '@/stores';
 import { fileToDataURL } from '@/utils/file/convertBase64';
@@ -10,6 +10,7 @@ const DocumentStore = useDocumentStore();
 const LoginStore = useLoginStore()
 const AlbumStore = useAlbumStore();
 const ImgStore = useImgStore();
+const CommunityStore = useCommunityStore()
 
 const audioview = ref(null);
 const musicerrmsg = ref(null);
@@ -25,11 +26,15 @@ const props = defineProps({
         type: Boolean,
         required: true
     },
+    isCommunity: {
+        type: Boolean,
+        required: true,
+    }
 });
 
 async function changefile(e) {
     const file = e.target.files[0];
-    if (file.type.startsWith("image/") && !props.isAlbum) {
+    if (file.type.startsWith("image/") && props.is_music) {
         imageview.value = await fileToDataURL(file);
         imageerrmsg.value = '';
         SongStore.newsong.cover = await ImgStore.CreateNewImg(file, LoginStore.access);
@@ -38,7 +43,13 @@ async function changefile(e) {
         imageview.value = AlbumStore.stateStorage.file
         AlbumStore.stateStorage.cover = await ImgStore.CreateNewImg(file, LoginStore.access);
         imageerrmsg.value = '';
-    } else {
+    }
+    else if(file.type.startsWith("image/") && props.isCommunity){
+        imageview.value = await fileToDataURL(file);
+        CommunityStore.CommunityData.cover = await ImgStore.CreateNewImg(file, LoginStore.access);
+        imageerrmsg.value = '';
+    }
+    else {
         imageerrmsg.value = 'Arquivo incompatível';
     }
 }
@@ -63,12 +74,12 @@ onMounted(async() =>{
 </script>
 <template>
     <div class="flex flex-col gap-32">
-        <label for="perfil" :class="imageerrmsg ? 'w-72 h-72 text-red-500 flex flex-col gap-2 justify-center items-center' : filterclasses(is_music, imageerrmsg)">
+        <label for="perfil" :class="imageerrmsg ? 'w-72 h-72 text-red-500 flex flex-col gap-2 justify-center items-center' : filterclasses(is_music, isAlbum, isCommunity, imageerrmsg)">
             <div class="flex flex-col size-7 border border-dotted w-full h-full justify-center items-center gap-5">
                 <span v-if="!imageview" class="text-5xl text-center">+</span>
                 <img :src="imageview" class="w-full h-full" v-else>
             </div>
-            <span class="font-extralight">{{ imageerrmsg ? imageerrmsg : textfilter(is_music, musicerrmsg) }}</span>
+            <span class="font-extralight">{{ imageerrmsg ? imageerrmsg : textfilter(is_music, isAlbum, isCommunity, musicerrmsg) }}</span>
         </label>
         <label for="audio" v-if="is_music">
             <div :class="musicerrmsg ? 'flex  flex-col text-red-500 gap-2' : 'flex flex-col text-white gap-2'">

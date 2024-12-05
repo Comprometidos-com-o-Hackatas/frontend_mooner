@@ -67,6 +67,7 @@ export const useFollowingStore = defineStore('following', () => {
     try {
       const response = await FollowingService.getFollowingsByUser(user,token)  
       state.followerByUser = response
+      return state.followerByUser
     } catch (error) {
       state.error = error
     } finally {

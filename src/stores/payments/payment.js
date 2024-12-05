@@ -44,10 +44,10 @@ export const usePaymentStore = defineStore('payment', ()=>{
         typeAssign.value.assign = findassign
     }
 
-    const createPayment = async (payload, token) => {
+    const createPayment = async (payload, token, email) => {
         state.loading = true
         try{
-            const response = await PaymentMethodService.CreatePayment(payload, token)
+            const response = await PaymentMethodService.CreatePayment(payload, token,email)
             if(response.status === 200){
                 msg.value = response.data.msg
                 err.value = false
@@ -62,6 +62,16 @@ export const usePaymentStore = defineStore('payment', ()=>{
         }
         
     }
+
+    const getQRcode  = async (email) =>{
+        const response = await PaymentMethodService.GetQrCode(email)
+        return response
+    }
+
+    const GetPaymentStatus =  async (email) =>{
+        const response = await PaymentMethodService.GetStatusPayment(email)
+        return response
+    }
     
-    return { typeAssign, getAssign, createPayment, err, msg }
+    return { typeAssign, getAssign, GetPaymentStatus, createPayment, getQRcode, err, msg }
 })

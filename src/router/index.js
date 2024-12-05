@@ -46,10 +46,20 @@ const router = createRouter({
           component: () => import('../views/ArtistView.vue'),
           props: true
           },
-                            {
-          path: 'createcommunity/',
+          {
+          path: '/createcommunity',
           name: 'createcommunity',
           component: () => import('../views/CommunityCreateView.vue')
+        },
+        {
+          path: '/community',
+          name: 'community',
+          component: () => import('../views/CommunityView.vue')
+        },
+        {
+          path: '/community/:id',
+          name: 'communityPosts',
+          component: () => import('../views/CommunityPostsView.vue')
         }
       ],
     },

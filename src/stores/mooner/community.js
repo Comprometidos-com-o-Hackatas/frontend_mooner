@@ -47,6 +47,13 @@ export const useCommunityStore = defineStore('community', () => {
   const communitysPostsByCommunity = computed(() => state.communitysPostsByCommunity)
   const selectedCommunityPost = computed(() => state.selectedCommunityPost)
 
+  const CommunityData = reactive({
+      name: '',
+      description: '',
+      autor: null,
+      cover: null, 
+  })
+
 
   /**
    * Fetches organs data.
@@ -57,6 +64,7 @@ export const useCommunityStore = defineStore('community', () => {
     state.loading = true
     try {
       state.communitys = await CommunityService.getCommunitys(token)
+      return state.communitys
     } catch (error) {
       state.error = error
     } finally {
@@ -87,6 +95,7 @@ export const useCommunityStore = defineStore('community', () => {
     try {
       const response = await CommunityService.getCommunitysByAutor(autor,token)  
       state.communitysByAutor = response
+      return state.communitysByAutor
     } catch (error) {
       state.error = error
     } finally {
@@ -100,6 +109,7 @@ export const useCommunityStore = defineStore('community', () => {
     try {
       const response = await CommunityPostsService.getCommunitysPostsByAutor(autor,token)  
       state.communitysPostsByAutor = response
+      return state.communitysPostsByAutor
     } catch (error) {
       state.error = error
     } finally {
@@ -140,10 +150,11 @@ export const useCommunityStore = defineStore('community', () => {
    * @function createSpecie
    * @param {Object} newSpecie - The new organ object to create.
    */
-  const createCommunity = async (newCommunity, token) => {
+  const createCommunity = async (token) => {
     state.loading = true
+    console.log(CommunityData)
     try {
-      state.communitys.push(await CommunityService.createCommunity(newCommunity, token))
+      state.communitys.push(await CommunityService.createCommunity(CommunityData, token))
     } catch (error) {
       state.error = error
     } finally {
@@ -179,6 +190,7 @@ export const useCommunityStore = defineStore('community', () => {
     communitysPosts,
     communitysPostsByCommunity,
     communitysPostsByAutor,
+    CommunityData,
     getCommunitys,
     getCommunitysByAutor,
     getCommunitysByName,

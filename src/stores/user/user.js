@@ -28,6 +28,7 @@ export const useUserStore = defineStore('user', () => {
   const state = useStorage('userMe', {
     users: [],
     selectedUser: {},
+    artist: null,
     myuser: {},
     loading: false,
     error: null,

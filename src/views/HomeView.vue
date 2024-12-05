@@ -1,16 +1,18 @@
 <script setup>
-import { useSongStore, useLoginStore, usePlaylistStore, useQueueStore } from '@/stores/index'
+import { useSongStore, useLoginStore, usePlaylistStore, useQueueStore, useArtistStore } from '@/stores/index'
 import { computed, onMounted } from 'vue';
+import NavigateHomeButtons from '@/components/buttons/NavigateHomeButtons.vue';
+import ContainerNavigateButtons from '@/components/buttons/ContainerNavigateButtons.vue';
+import MusicGlobalContainer from '@/components/global/MusicGlobalContainer.vue';
+import MusicBox from '@/components/global/MusicBox.vue';
+import SideHeaderOptions from '@/components/newDesign/SideHeaderOptions.vue';
+import { data_section, data_page, data_music_home, selectSection} from '@/utils/music/music';
+
 const songStore = useSongStore()
 const loginStore = useLoginStore()
 const playlistStore = usePlaylistStore()
 const queueStore = useQueueStore()
-import NavigateHomeButtons from '@/components/buttons/NavigateHomeButtons.vue';
-import ContainerNavigateButtons from '@/components/buttons/ContainerNavigateButtons.vue';
-import MusicGlobalContainer from '@/components/global/MusicGlobalContainer.vue';
-
-import MusicBox from '@/components/global/MusicBox.vue';
-import { data_section, data_page, data_music_home, selectSection} from '@/utils/music/music';
+const ArtistStore = useArtistStore()
 
 const verifyHasPlaylist = computed(()=>{
   const playlists = playlistStore.playlistsByOwner.length
@@ -23,6 +25,7 @@ onMounted(async ()=>{
   if(data_music_home.value[1].music.length === 0){
     data_music_home.value[1].music = await songStore.getSongs(loginStore.access)
   }
+  data_music_home.value[2].music = await ArtistStore.getArtists(loginStore.access)
 })
 
 </script>
@@ -39,9 +42,9 @@ onMounted(async ()=>{
       </ContainerNavigateButtons>
 
       <MusicGlobalContainer class="mt-3" :title="item.title" v-for="item, index in data_music_home" :key="index">
-        <MusicBox v-for="music, index in item.music" :key="index" :music_data="music" :index="index" :has_playlist="verifyHasPlaylist" />
+          <MusicBox v-for="music, index_music in item.music" :key="index_music" :music_data="music" :index="index_music" :has_playlist="verifyHasPlaylist"/>
       </MusicGlobalContainer>
     </section>
-
+    
   </main>
 </template>

@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ArtistService } from '@/services'
 import { aboutvalidation } from '@/utils/validations/artist/aboutvalidation'
 import { artistnamevalidation } from '@/utils/validations/artist/artisticnamevalidation'
 import { useStorage } from '@vueuse/core'
+import { artist } from '@/utils/artist/artist-profile'
 /**
  * Store for managing organs data.
  * @typedef {Object} SpecieStore
@@ -30,6 +31,7 @@ export const useArtistStore = defineStore('artist', () => {
   const state = useStorage('artistStorage', {
     selectedArtist: {},
     artistsByName: [],
+    artists: [],
     loading: false,
     error: null,
     connection: false
@@ -53,7 +55,8 @@ export const useArtistStore = defineStore('artist', () => {
   const getArtists = async (token) => {
     state.value.loading = true
     try {
-      state.value.artists = await ArtistService.getArtists(token)
+      state.value.artistsByName = await ArtistService.getArtists(token)
+      return state.value.artistsByName
     } catch (error) {
       state.value.error = error
     } finally {
@@ -124,8 +127,8 @@ export const useArtistStore = defineStore('artist', () => {
   return {
     state,
     isLoading,
-    artists,
     artistsByName,
+    artist,
     msg,
     err,
     selectedArtist,

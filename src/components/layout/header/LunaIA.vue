@@ -70,7 +70,7 @@ onMounted( async () =>{
             </div>
             <div class="lunna-chat">
                 <InputGlobal placeholder="ola" id="luuna-input" v-model:value="useranswer"/>
-                <ButtonGlobal class="flex justify-center items-center"width="50px" height="40px" background="#6340AE" border="none" border_radius="10px"  :is_arrow="true" @click="Answer"/>
+                <ButtonGlobal class="flex justify-center items-center" width="50px" height="40px" background="#6340AE" border="none" border_radius="10px"  :is_arrow="true" @click="Answer"/>
             </div>
         </div>
     </div>

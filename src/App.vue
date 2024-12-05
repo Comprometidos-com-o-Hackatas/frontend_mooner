@@ -10,18 +10,12 @@ const loginStore = useLoginStore()
 const communityStore = useCommunityStore()
 const followingStore = useFollowingStore()
 
-// router.beforeEach((to, from, next) => {
-//   if (to.path == '/login' ||)
-// })
 onMounted(async()=>{
     await userStore.getUser(loginStore.access)
-    await playlistStore.getPlaylistsByOwner(userStore.myuser.email, loginStore.access)
-    await communityStore.getCommunitysByAutor(userStore.myuser.email, loginStore.access)
-    await followingStore.getFollowingByUser(userStore.myuser.email, loginStore.access)
-    dataHeader.playlist.content = playlistStore.playlistsByOwner
-    dataHeader.artist.content = followingStore.followersByUser
-    dataHeader.community.content = communityStore.communitys
-    console.log(dataHeader.artist.content)
+    dataHeader.playlist.content = await playlistStore.getPlaylistsByOwner(userStore.myuser.email, loginStore.access)
+    dataHeader.artist.content =  await followingStore.getFollowingByUser(userStore.myuser.email, loginStore.access)
+    dataHeader.community.content = await communityStore.getCommunitysByAutor(userStore.myuser.email, loginStore.access)
+    console.log(dataHeader)
   })
 </script>
 <template>

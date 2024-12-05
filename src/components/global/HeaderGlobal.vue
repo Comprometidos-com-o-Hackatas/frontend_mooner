@@ -1,6 +1,5 @@
 <script setup>
 import { useLoginStore, useUserStore, useArtistStore } from '@/stores/';
-import { ref } from 'vue';
 import UserOptions from '../user/artist/UserOptions.vue';
 import { onMounted } from 'vue';
 const loginStore = useLoginStore()
@@ -9,12 +8,12 @@ const artistStore = useArtistStore()
 const token = loginStore.access
 
 onMounted(async()=>{
-    
     await userStore.getUsers(token)
     await artistStore.getArtists(token)
-    const index = artistStore.artists.findIndex((s) => s.user.email == userStore.myuser.email)
-    userStore.state.artist = artistStore.artists[index] 
-    
+    const index = artistStore.artistsByName.findIndex((s) => s.user.email == userStore.myuser.email)
+    userStore.state.artist = artistStore.artist[index]
+    console.log(userStore.state.artist)
+
 })
 
 defineProps({
@@ -27,10 +26,6 @@ defineProps({
         default: false
     }
 })
-
-const emits = defineEmits([
-    'menu'
-])
 </script>
 <template>
     <div class="flex justify-end lg:justify-normal xl:justify-between w-[97.5%] mx-auto relative mb-3 xl:mb-0 right-0 min-h-10 xl:min-h-16 xl:items-center text-white items-end z-50 xl:w-[100%]">
